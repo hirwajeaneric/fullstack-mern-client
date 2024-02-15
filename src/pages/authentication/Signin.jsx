@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react"
 import SuccessAlert from "../../components/SuccessAlert";
 import ErrorAlert from "../../components/ErrorAlert";
+import { Link } from "react-router-dom";
 const CLIENT_ADDRESS= import.meta.env.VITE_SERVER_ADDRESS;
 
 const Signin = () => {
@@ -142,7 +143,7 @@ const Signin = () => {
 
                                 <p className="mt-4 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
                                     Does not have an account?
-                                    <a href="/signup" className="text-gray-700 underline dark:text-gray-200">Create an account</a>.
+                                    <Link to="/signup" className="text-gray-700 underline dark:text-gray-200">Create an account</Link>.
                                 </p>
                             </div>
                         </form>

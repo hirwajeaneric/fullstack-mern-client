@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SuccessAlert from "../../components/SuccessAlert";
 import ErrorAlert from "../../components/ErrorAlert";
-const CLIENT_ADDRESS= import.meta.env.VITE_SERVER_ADDRESS;
+const CLIENT_ADDRESS = import.meta.env.VITE_SERVER_ADDRESS;
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Signup = () => {
         title: "",
         description: ""
     });
-    
+
     const [error, setError] = useState({
         title: "",
         description: ""
@@ -37,7 +37,7 @@ const Signup = () => {
             confirmPassword: '',
             marketingAccept: ''
         })
-    } 
+    }
 
     const handleInputs = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value })
@@ -45,7 +45,7 @@ const Signup = () => {
 
     const SignUp = (e) => {
         e.preventDefault();
-        
+
         if (user.firstName.length < 3) {
             setError({
                 title: "Input error",
@@ -59,32 +59,32 @@ const Signup = () => {
             });
             return;
         } else {
-            const {confirmPassword, marketingAccept, ...rest  } = user;
+            const { confirmPassword, marketingAccept, ...rest } = user;
             axios.post('${CLIENT_ADDRESS}/api/v1/contactapp/auth/signup', rest)
-            .then((response) => {
-                if (response.status === 201) {
-                    
-                    setMessage({
-                        title: "Success",
-                        description: response.data.message
-                    });
+                .then((response) => {
+                    if (response.status === 201) {
 
-                    setTimeout(() => { 
-                        navigate('/signin');
-                    }, 3000)
-                } 
-            })
-            .catch(error => {
-                setError({
-                    title: 'Error',
-                    description: error
+                        setMessage({
+                            title: "Success",
+                            description: response.data.message
+                        });
+
+                        setTimeout(() => {
+                            navigate('/signin');
+                        }, 3000)
+                    }
                 })
-            })
+                .catch(error => {
+                    setError({
+                        title: 'Error',
+                        description: error
+                    })
+                })
         }
     }
 
     return (
-        <section className = "bg-white dark:bg-gray-900" >
+        <section className="bg-white dark:bg-gray-900" >
             <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
                 <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
                     <img
@@ -256,14 +256,14 @@ const Signup = () => {
 
                                 <p className="mt-4 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
                                     Already have an account?
-                                    <a href="/signin" className="text-gray-700 underline dark:text-gray-200">Log in</a>.
+                                    <Link to="/signin" className="text-gray-700 underline dark:text-gray-200">Log in</Link>.
                                 </p>
                             </div>
                         </form>
                     </div>
                 </main>
             </div>
-</section >
+        </section >
     )
 }
 
