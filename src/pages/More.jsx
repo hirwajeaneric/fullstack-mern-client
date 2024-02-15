@@ -11,7 +11,7 @@ const More = () => {
   const [contact, setContact] = useState({});
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/v1/contactapp/contact/findById?id=${params.contactId}`)
+    axios.get(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/contact/findById?id=${params.contactId}`)
       .then(response => {
           setContact(response.data.contact);
       })
@@ -24,7 +24,7 @@ const More = () => {
     setError('');
     setMessage('');
 
-    axios.delete(`http://localhost:3000/api/v1/contactapp/delete?id=${params.contactId}`, contact)
+    axios.delete(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/delete?id=${params.contactId}`, contact)
     .then(response => {
       if (response.status === 200) {
         setMessage(response.data.message);
