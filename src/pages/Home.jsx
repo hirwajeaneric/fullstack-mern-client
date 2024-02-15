@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import ContactComponent from "../components/ContactComponent"
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+const CLIENT_ADDRESS = import.meta.env.VITE_SERVER_ADDRESS;
 
 const Home = () => {
     const [contacts, setContacts] = useState([]);
@@ -9,7 +10,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("${CLIENT_ADDRESS}/api/v1/contactapp/contact/list")
+        axios.get(`${CLIENT_ADDRESS}/api/v1/contactapp/contact/list`)
         .then(response => {
             setContacts(response.data.contacts);
         })
