@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
+const CLIENT_ADDRESS= import.meta.env.VITE_SERVER_ADDRESS;
 
 const More = () => {
   const params = useParams();
@@ -11,7 +12,7 @@ const More = () => {
   const [contact, setContact] = useState({});
 
   useEffect(() => {
-    axios.get(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/contact/findById?id=${params.contactId}`)
+    axios.get(`${CLIENT_ADDRESS}/api/v1/contactapp/contact/findById?id=${params.contactId}`)
       .then(response => {
           setContact(response.data.contact);
       })
@@ -24,7 +25,7 @@ const More = () => {
     setError('');
     setMessage('');
 
-    axios.delete(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/delete?id=${params.contactId}`, contact)
+    axios.delete(`${CLIENT_ADDRESS}/api/v1/contactapp/delete?id=${params.contactId}`, contact)
     .then(response => {
       if (response.status === 200) {
         setMessage(response.data.message);

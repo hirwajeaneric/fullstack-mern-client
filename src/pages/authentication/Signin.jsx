@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react"
 import SuccessAlert from "../../components/SuccessAlert";
 import ErrorAlert from "../../components/ErrorAlert";
+const CLIENT_ADDRESS= import.meta.env.VITE_SERVER_ADDRESS;
 
 const Signin = () => {
     const [user, setUser] = useState({
@@ -26,7 +27,7 @@ const Signin = () => {
         setError({ title: "", description: "" });
         setMessage({ title: "", description: "" });
 
-        axios.post(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/auth/signin`, user)
+        axios.post(`${CLIENT_ADDRESS}/api/v1/contactapp/auth/signin`, user)
             .then(response => {
                 if (response.status === 200) {
                     setMessage({ title: 'Success', description: response.data.message });

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
-
+const CLIENT_ADDRESS= import.meta.env.VITE_SERVER_ADDRESS;
 export default function Create() {
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ export default function Create() {
     setError('');
     setMessage('');
 
-    axios.post(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/contact/add`, contact)
+    axios.post(`${CLIENT_ADDRESS}/api/v1/contactapp/contact/add`, contact)
     .then(response => {
       if (response.status === 201) {
         setMessage(response.data.message);

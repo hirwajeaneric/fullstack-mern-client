@@ -9,7 +9,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/contact/list")
+        axios.get("${CLIENT_ADDRESS}/api/v1/contactapp/contact/list")
         .then(response => {
             setContacts(response.data.contacts);
         })

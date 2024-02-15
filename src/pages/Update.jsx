@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
+const CLIENT_ADDRESS= import.meta.env.VITE_SERVER_ADDRESS;
 
 export default function Update() {
   const params = useParams();
@@ -12,7 +13,7 @@ export default function Update() {
 
   // Fetch data
   useEffect(() => {
-    axios.get(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/contact/findById?id=${params.contactId}`)
+    axios.get(`${CLIENT_ADDRESS}/api/v1/contactapp/contact/findById?id=${params.contactId}`)
       .then(response => {
         setContact(response.data.contact);
       })
@@ -26,7 +27,7 @@ export default function Update() {
     setError('');
     setMessage('');
 
-    axios.put(`https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/contact/update?id=${params.contactId}`, contact)
+    axios.put(`${CLIENT_ADDRESS}/api/v1/contactapp/contact/update?id=${params.contactId}`, contact)
     .then(response => {
       if (response.status === 200) {
         setMessage(response.data.message);

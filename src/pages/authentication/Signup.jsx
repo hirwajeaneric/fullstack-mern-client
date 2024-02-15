@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import SuccessAlert from "../../components/SuccessAlert";
 import ErrorAlert from "../../components/ErrorAlert";
+const CLIENT_ADDRESS= import.meta.env.VITE_SERVER_ADDRESS;
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -59,7 +60,7 @@ const Signup = () => {
             return;
         } else {
             const {confirmPassword, marketingAccept, ...rest  } = user;
-            axios.post('https://contact-app-server-nxgi.onrender.com/api/v1/contactapp/auth/signup', rest)
+            axios.post('${CLIENT_ADDRESS}/api/v1/contactapp/auth/signup', rest)
             .then((response) => {
                 if (response.status === 201) {
                     
