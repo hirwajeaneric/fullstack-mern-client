@@ -52,7 +52,7 @@ export default function Create() {
       reader.onload = () => {
         console.log(reader.result); //base64encoded string 
         setPicture(reader.result);
-        setContact({...contact, picture: JSON.stringify(reader.result)});
+        setContact({...contact, picture: reader.result});
       };
       reader.onerror = error => {
         setError({ title: 'Error', description: error });
