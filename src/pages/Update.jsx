@@ -1,14 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
+import SuccessAlert from "../components/SuccessAlert";
+import ErrorAlert from "../components/ErrorAlert";
 const CLIENT_ADDRESS= import.meta.env.VITE_SERVER_ADDRESS;
 
 export default function Update() {
   const params = useParams();
   const navigate = useNavigate();
   
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState({title: '', description: ''});
+  const [error, setError] = useState({title: '', description: ''});
   const [contact, setContact] = useState({});
 
   // Fetch data
@@ -30,7 +32,7 @@ export default function Update() {
     axios.put(`${CLIENT_ADDRESS}/api/v1/contactapp/contact/update?id=${params.contactId}`, contact)
     .then(response => {
       if (response.status === 200) {
-        setMessage(response.data.message);
+        setMessage({ title: 'Success', description: response.data.message});
         setContact(response.data.contact);
         
         setTimeout(() => {
@@ -40,7 +42,7 @@ export default function Update() {
       }
     })
     .catch(err => { 
-      setError(err);
+      setError({ title: err.name, description: err.message});
       console.error(err);
     })
     
@@ -97,8 +99,8 @@ export default function Update() {
           </div>
           
           <button type="submit" className="mt-5 py-3 px-6 bg-slate-600 text-white rounded-lg text-base">Update</button>
-          {message && <p className="bg-green-200 text-green-900 p-5 rounded-lg">{message}</p>}
-          {error && <p className="bg-red-200 text-red-900 p-5 rounded-lg">{error}</p>}
+          {message.description && <SuccessAlert message={message} />}
+          {error.description && <ErrorAlert error={error} />}
         </form>
       </div>
     </div>

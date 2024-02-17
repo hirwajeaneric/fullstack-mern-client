@@ -1,40 +1,63 @@
 import axios from "axios";
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
+import SuccessAlert from "../components/SuccessAlert";
+import ErrorAlert from "../components/ErrorAlert";
 const CLIENT_ADDRESS= import.meta.env.VITE_SERVER_ADDRESS;
 export default function Create() {
   const navigate = useNavigate();
 
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState({title: '', description: ''});
+  const [error, setError] = useState({title: '', description: ''});
   const [contact, setContact] = useState({});
-
+  const [picture, setPicture] = useState(null);
 
   // Function to update 
   const createContact = (e) => {
     e.preventDefault();
 
-    setError('');
-    setMessage('');
+    setError({ title: '', description: '' });
+    setMessage({ title: '', description: ''});
 
     axios.post(`${CLIENT_ADDRESS}/api/v1/contactapp/contact/add`, contact)
     .then(response => {
       if (response.status === 201) {
-        setMessage(response.data.message);
-        
+        setMessage({ title: 'Success', description: response.data.message});
         setTimeout(() => {
           navigate('/');
         }, 3000);
       }
     })
     .catch(err => { 
-      setError(err);
-      console.error(err);
+      setError({ title: err.name, description: err.message});
     })
   }
 
   const handleInputs = (e) => {
     setContact({ ...contact, [e.target.name]: e.target.value });
+  }
+  
+  const handlePictureSelection = (e) => {
+    console.log(e.target.files[0]);
+    setError({ title: '', description:''});
+
+    if (e.target.files[0].size >= 1500000) {
+      setError({
+        title: "File too large",
+        description: "Please select a file smaller than 2MB"
+      });
+    } else {
+      var reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = () => {
+        console.log(reader.result); //base64encoded string 
+        setPicture(reader.result);
+        setContact({...contact, picture: JSON.stringify(reader.result)});
+      };
+      reader.onerror = error => {
+        setError({ title: 'Error', description: error });
+      };
+    }
   }
 
   return (
@@ -83,9 +106,23 @@ export default function Create() {
             />
           </div>
           
+          <div className="flex flex-col gap-2">
+            <label htmlFor="picture">Picture</label>
+            <input 
+              type="file" 
+              name="picture"
+              accept="image/*"
+              required  
+              id="picture" 
+              onChange={handlePictureSelection} 
+              className="border-black border rounded-lg p-3"
+            />
+            {picture && <img width={100} height={100} src={picture} alt="Uploaded picture" />}
+          </div>
+          
           <button type="submit" className="mt-5 py-3 px-6 bg-slate-600 text-white rounded-lg text-base">Create</button>
-          {message && <p className="bg-green-200 text-green-900 p-5 rounded-lg">{message}</p>}
-          {error && <p className="bg-red-200 text-red-900 p-5 rounded-lg">{error}</p>}
+          {message.description && <SuccessAlert message={message} />}
+          {error.description && <ErrorAlert error={error} />}
         </form>
       </div>
     </div>
