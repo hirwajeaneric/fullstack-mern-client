@@ -27,8 +27,8 @@ const Home = () => {
                     <button onClick={() => navigate('/add')} className="py-3 px-6 bg-black text-white rounded-lg text-base">Add New</button>
                 </div>
                 <div className="pt-10 flex flex-col justify-start items-start gap-4">
-                    {contacts.length === 0 && <p>No contacts yet</p>}
-                    {contacts.map((contact, index) => (
+                    {!contacts && <p>No contacts yet</p>}
+                    {contacts && contacts.map((contact, index) => (
                         <ContactComponent key={index} contact={contact}/>
                     ))}
                 </div>

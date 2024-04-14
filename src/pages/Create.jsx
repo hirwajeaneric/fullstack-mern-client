@@ -10,7 +10,7 @@ export default function Create() {
   const [message, setMessage] = useState({title: '', description: ''});
   const [error, setError] = useState({title: '', description: ''});
   const [contact, setContact] = useState({});
-  const [picture, setPicture] = useState(null);
+  // const [picture, setPicture] = useState(null);
 
   // Function to update 
   const createContact = (e) => {
@@ -37,28 +37,28 @@ export default function Create() {
     setContact({ ...contact, [e.target.name]: e.target.value });
   }
   
-  const handlePictureSelection = (e) => {
-    console.log(e.target.files[0]);
-    setError({ title: '', description:''});
+  // const handlePictureSelection = (e) => {
+  //   console.log(e.target.files[0]);
+  //   setError({ title: '', description:''});
 
-    if (e.target.files[0].size >= 1500000) {
-      setError({
-        title: "File too large",
-        description: "Please select a file smaller than 2MB"
-      });
-    } else {
-      var reader = new FileReader();
-      reader.readAsDataURL(e.target.files[0]);
-      reader.onload = () => {
-        console.log(reader.result); //base64encoded string 
-        setPicture(reader.result);
-        setContact({...contact, picture: reader.result});
-      };
-      reader.onerror = error => {
-        setError({ title: 'Error', description: error });
-      };
-    }
-  }
+  //   if (e.target.files[0].size >= 1500000) {
+  //     setError({
+  //       title: "File too large",
+  //       description: "Please select a file smaller than 2MB"
+  //     });
+  //   } else {
+  //     var reader = new FileReader();
+  //     reader.readAsDataURL(e.target.files[0]);
+  //     reader.onload = () => {
+  //       console.log(reader.result); //base64encoded string 
+  //       setPicture(reader.result);
+  //       setContact({...contact, picture: reader.result});
+  //     };
+  //     reader.onerror = error => {
+  //       setError({ title: 'Error', description: error });
+  //     };
+  //   }
+  // }
 
   return (
     <div className="w-ful flex flex-col justify-center items-center">
@@ -106,7 +106,7 @@ export default function Create() {
             />
           </div>
           
-          <div className="flex flex-col gap-2">
+          {/* <div className="flex flex-col gap-2">
             <label htmlFor="picture">Picture</label>
             <input 
               type="file" 
@@ -118,7 +118,7 @@ export default function Create() {
               className="border-black border rounded-lg p-3"
             />
             {picture && <img width={100} height={100} src={picture} alt="Uploaded picture" />}
-          </div>
+          </div> */}
           
           <button type="submit" className="mt-5 py-3 px-6 bg-slate-600 text-white rounded-lg text-base">Create</button>
           {message.description && <SuccessAlert message={message} />}
